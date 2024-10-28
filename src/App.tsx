@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import './App.css';
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 
+import * as _ from 'lodash';
 import { Button, Container, Grid, MantineProvider, TextInput } from '@mantine/core';
+import useDiscogsFetch from './discogsFetch';
 
 type ReleaseArtist = {
   name: string;
@@ -40,9 +42,16 @@ type VideoEntry = {
   title: string;
 };
 
-type MasterRelease = {
+type MasterReleaseResponse = {
   videos?: VideoEntry[];
 };
+
+type ReleasesResponse = {
+  pagination: object;
+  releases: Release[];
+};
+
+const RELEASES_PER_PAGE = 50;
 
 function App() {
   const [value, setValue] = useState('');
@@ -50,6 +59,13 @@ function App() {
   const floating = focused || value.length > 0 || undefined;
   const [releases, setReleases] = useState<Release[]>([]);
   const [videoUrls, setVideoUrls] = useState<string[][]>([]);
+  const [videoUrlsLeft, setVideoUrlsLeft] = useState<number>(0);
+  const decrementVideoUrlsLeft = useCallback(() => {
+    setVideoUrlsLeft(videoUrlsLeft - 1);
+    console.log(videoUrlsLeft);
+  }, [videoUrlsLeft]);
+
+  const discogsFetch = useDiscogsFetch();
 
   async function getVideoUrls(release: Release): Promise<string[]> {
     const releaseUrl =
@@ -58,8 +74,11 @@ function App() {
       return [];
     }
     try {
-      const response = await fetch(releaseUrl);
-      const releaseMetadata: MasterRelease = await response.json();
+      const releaseMetadata = await discogsFetch<MasterReleaseResponse, null>(releaseUrl);
+      if ('error' in releaseMetadata) {
+        throw new Error(`Response status: ${releaseMetadata.error}`);
+      }
+      decrementVideoUrlsLeft();
       return releaseMetadata.videos?.map((v) => v.uri) ?? [];
     } catch {
       return [];
@@ -68,19 +87,21 @@ function App() {
 
   async function getData(discogsUrl: string) {
     const username = new URL(discogsUrl).pathname.split('/')[2];
-    const url = `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=24`;
+    const url = `https://api.discogs.com/users/${username}/collection/folders/0/releases?per_page=${RELEASES_PER_PAGE}`;
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+      const resp = await discogsFetch<ReleasesResponse, null>(url);
+      if ('error' in resp) {
+        throw new Error(`Response status: ${resp.error}`);
       }
-
-      const releases: Release[] = (await response.json()).releases;
+      const releases: Release[] = resp.releases;
       setReleases(releases);
+      setVideoUrlsLeft(releases.length);
       setVideoUrls(await Promise.all(releases.map(getVideoUrls)));
       console.log(releases);
-    } catch (error: unknown) {
-      console.error(error.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
