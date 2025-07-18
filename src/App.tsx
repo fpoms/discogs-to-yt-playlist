@@ -6,6 +6,7 @@ import './App.css';
 import '@mantine/core/styles.css';
 
 import * as _ from 'lodash';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import {
   AppShell,
   Burger,
@@ -19,8 +20,12 @@ import {
   Stack,
   Title,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import logo from './assets/faited_logo_white.png'; // Tell webpack this JS file uses this image
-
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Home from './pages/Home';
+import Theme from './theme';
 import useDiscogsFetch from './useDiscogsFetch';
 
 type ReleaseArtist = {
@@ -68,43 +73,50 @@ type ReleasesResponse = {
 const RELEASES_PER_PAGE = 50;
 
 function App() {
-  const [opened, setOpened] = useState(false);
-  const [toggle, setToggle] = useState(false);
+  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
 
   return (
-    <MantineProvider defaultColorScheme="dark">
+    <MantineProvider defaultColorScheme="dark" theme={Theme()}>
       <AppShell
-        header={{ height: 60 }}
+        header={{ height: 80 }}
         navbar={{
           width: 300,
           breakpoint: 'sm',
-          collapsed: { mobile: !opened },
+          collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
         }}
         padding="md"
       >
-        <AppShell.Header>
+        <AppShell.Header className="fs-appshell-header">
           <Group justify="space-between" style={{ height: '100%' }}>
-            <Group h="100%" px="md" gap={'xs'}>
-              <Image h={35} src={logo} />
-              <Stack align="flex-start" justify="center" style={{ gap: '0' }}>
-                <div>Faited</div>
-                <div>Systems</div>
-              </Stack>
-            </Group>
-            <Group>
-              <Button variant="subtle">Products</Button>
-              <Button variant="subtle">About</Button>
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Group h="100%" gap={'xs'} className="faited-logo">
+                <Image h={35} src={logo} />
+                <Stack align="flex-start" justify="center" style={{ gap: '0' }}>
+                  <div>Faited</div>
+                  <div>Systems</div>
+                </Stack>
+              </Group>
+            </Link>
+            <Group gap="xs">
+              <Link to="/contact">
+                <Button variant="subtle">Contact</Button>
+              </Link>
+              <Link to="/about">
+                <Button variant="subtle">About</Button>
+              </Link>
             </Group>
           </Group>
         </AppShell.Header>
         <AppShell.Main>
-          <Stack>
-            <Title order={2}>Quadra</Title>
-            <Image src="" />
-          </Stack>
+          {' '}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
         </AppShell.Main>
       </AppShell>
-      <h1>Faited Systems</h1>
     </MantineProvider>
   );
 }

@@ -1,0 +1,18 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+declare const StoryComponent: ({ url, postUrl, width, height, linkText, placeholderImageUrl, placeholderSpinner, placeholderSpinnerDisabled, placeholderProps, embedPlaceholder, placeholderDisabled, ...divProps }: import("../../components/embeds/LinkedInEmbed").LinkedInEmbedProps) => React.JSX.Element;
+declare const meta: Meta<typeof StoryComponent>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const MainExample: Story;
+export declare const Size250x570AtMinWidth: Story;
+export declare const Size400x570: Story;
+export declare const Size600x650: Story;
+export declare const Size150x570AtUnderMin: Story;
+export declare const Width100Percent: Story;
+export declare const UrlOnly: Story;
+export declare const WithPlaceholderImage: Story;
+export declare const CustomPlaceholder: Story;
+export declare const CustomPlaceholderLinkText: Story;
+export declare const PlaceholderSpinnerDisabled: Story;
+export declare const PlaceholderDisabled: Story;
