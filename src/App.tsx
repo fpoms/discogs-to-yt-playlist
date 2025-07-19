@@ -1,25 +1,11 @@
-import { useCallback, useState } from 'react';
-
 import './App.css';
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 
 import * as _ from 'lodash';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import {
-  AppShell,
-  Burger,
-  Button,
-  Container,
-  Flex,
-  Grid,
-  Group,
-  Image,
-  MantineProvider,
-  Stack,
-  Title,
-} from '@mantine/core';
+import { Link, Route, Routes } from 'react-router-dom';
+import { AppShell, Button, Group, Image, MantineProvider, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import logo from './assets/faited_logo_white.png'; // Tell webpack this JS file uses this image
 import About from './pages/About';
@@ -109,7 +95,6 @@ function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Main>
-          {' '}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />

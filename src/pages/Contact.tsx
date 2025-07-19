@@ -1,7 +1,6 @@
 import { InstagramEmbed } from 'react-social-media-embed';
-import { AppShell, Button, Container, Group, Image, Stack, Title } from '@mantine/core';
+import { Container, Stack, Title } from '@mantine/core';
 import quadraWide from '../assets/quadra_wide.jpg'; // Tell webpack this JS file uses this image
-import InstagramProfileEmbed from '../components/InstagramProfileEmbed';
 
 export default function Contact() {
   return (

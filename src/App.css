@@ -41,13 +41,21 @@
 }
 
 .fs-appshell-header {
+  @media (max-width: em(750px)) {
+    padding-left: 32px;
+    padding-right: 20px;
+  }
   @media (min-width: em(750px)) {
     padding-left: 50px;
     padding-right: 50px;
   }
-  @media (max-width: em(750px)) {
-    padding-left: 32px;
-    padding-right: 20px;
+  @media (min-width: em(1250px)) {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  @media (min-width: em(1550px)) {
+    padding-left: 160px;
+    padding-right: 160px;
   }
 
   & button {
