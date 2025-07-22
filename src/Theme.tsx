@@ -1,4 +1,4 @@
-import { createTheme } from '@mantine/core';
+import { Container, createTheme, getSize } from '@mantine/core';
 
 export default function Theme() {
   return createTheme({

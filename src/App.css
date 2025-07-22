@@ -1,7 +1,10 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+}
+
+.faited-logo {
+  line-height: 18px;
 }
 
 .logo {
@@ -41,23 +44,6 @@
 }
 
 .fs-appshell-header {
-  @media (max-width: em(750px)) {
-    padding-left: 32px;
-    padding-right: 20px;
-  }
-  @media (min-width: em(750px)) {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-  @media (min-width: em(1250px)) {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-  @media (min-width: em(1550px)) {
-    padding-left: 160px;
-    padding-right: 160px;
-  }
-
   & button {
     @media (max-width: em(512px)) {
       padding-inline: var(--button-padding-x-xs);
@@ -66,4 +52,8 @@
       padding-inline: var(--button-padding-x-md);
     }
   }
+}
+
+.main-content {
+  --container-size: 'calc(90rem * var(--mantine-scale))';
 }

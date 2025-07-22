@@ -5,9 +5,11 @@ import '@mantine/core/styles.css';
 
 import * as _ from 'lodash';
 import { Link, Route, Routes } from 'react-router-dom';
-import { AppShell, Button, Group, Image, MantineProvider, Stack } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import logo from './assets/faited_logo_white.png'; // Tell webpack this JS file uses this image
+import { AppShell, Button, Container, Group, Image, MantineProvider, Stack } from '@mantine/core';
+import { useDisclosure, useFavicon, useViewportSize } from '@mantine/hooks';
+import favicon from './assets/faited_favicon.png';
+import logo from './assets/faited_logo_gray.png'; // Tell webpack this JS file uses this image
+
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
@@ -59,8 +61,13 @@ type ReleasesResponse = {
 const RELEASES_PER_PAGE = 50;
 
 function App() {
+  useFavicon(favicon); // Replace with your favicon path
+
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
+  const { width: viewportWidth } = useViewportSize();
+  const headerIdealWidth = 1200;
+  const headerPadding = Math.max((viewportWidth - headerIdealWidth) / 2, 30);
 
   return (
     <MantineProvider defaultColorScheme="dark" theme={Theme()}>
@@ -71,11 +78,16 @@ function App() {
           breakpoint: 'sm',
           collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
         }}
-        padding="md"
+        padding="15px"
       >
-        <AppShell.Header className="fs-appshell-header">
+        <AppShell.Header
+          className="fs-appshell-header"
+          margin-lef
+          pl={headerPadding}
+          pr={headerPadding}
+        >
           <Group justify="space-between" style={{ height: '100%' }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: '#DEE2E6' }}>
               <Group h="100%" gap={'xs'} className="faited-logo">
                 <Image h={35} src={logo} />
                 <Stack align="flex-start" justify="center" style={{ gap: '0' }}>
@@ -95,11 +107,13 @@ function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
+          <Container fluid style={{ '--container-size': 'calc(90rem * var(--mantine-scale))' }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+          </Container>
         </AppShell.Main>
       </AppShell>
     </MantineProvider>

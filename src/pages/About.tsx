@@ -11,13 +11,15 @@ export default function Home() {
             <Image fit="cover" radius="md" src={faitDetroit} />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6, lg: 3 }}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt nulla quam aut sed
-              corporis voluptates praesentium inventore, sapiente ex tempore sit consequatur debitis
-              non! Illo cum ipsa reiciendis quidem facere, deserunt eos totam impedit. Vel ab, ipsum
-              veniam aperiam odit molestiae incidunt minus, sint eos iusto earum quaerat vitae
-              perspiciatis.
-            </Text>
+            <p>
+              Faited Systems - a loudspeaker design and manufacturing studio based in Oakland, CA,
+              USA - owned and operated by Fait Poms.
+            </p>
+            <p></p>
+            <p>
+              All loudspeakers are designed, simulated, and manufactured by Fait at the Faited
+              Systems workshop in Oakland.
+            </p>
           </Grid.Col>
         </Grid>
       </Stack>
